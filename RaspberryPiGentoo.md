@@ -35,6 +35,22 @@ You can then mount the / partition, as root:
     $ mkdir /mnt/raspberry
     $ mount -o offset=62914560 /mnt/raspberry
 
+You need to mount it because one module which is set to be loaded at boot time will prevent you to log in:
+
+    $ nano /mnt/raspberry/etc/ld.so.preload # comment out the loaded module (with `#`)
+    $ umount /mnt/raspberry
+
+I expected to copy the kernel from the boot partition and start from here, but that kernel wont boot, and I have no idea why. You can find a specific kernel that will work on qemu [here](http://xecdesign.com/downloads/linux-qemu/kernel-qemu). Put is inside the same folder as your disk image, and you should be ready to go.
+
+You can then start the machine with the following command. Note that:
+
+* You need to specify the kernel specific to qemu
+* You can't change the allocated memory.
+* I run it with `--curses` because I'm through ssh. You don't beed this if you run it on your local machine, it will start in a new window.
+
+    $ qemu-system-arm -kernel kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1" -hda 2013-05-25-wheezy-raspbian.img --curses
+
+
 # 2. References
 
 <http://xecdesign.com/qemu-emulating-raspberry-pi-the-easy-way/>
