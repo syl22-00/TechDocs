@@ -101,14 +101,14 @@ As we saw, with the Web Audio API, one can access the audio samples as they are 
 
 Meanwhile, as digital audio data is large but takes time to be produced, one can make use of WebSockets and stream them as they are recorded. That can be used for instance to send audio messages to other people, or process audio on a server, as a web service. Using WebSockets, the binary nature of audio streams is not an issue, and any size of data can be sent. You would have harder time putting a large blob in a POST request.
 
-Supporting a lot of these technologies are the new Typed Arrays which offer much better performance than the original JavaScript arrays that can contain any type of data. Audio is usually stored in arrays of short integers (for the most common audio encodeing, on 16 bits), so our firend here is `Int16Array`:
+Supporting a lot of these technologies are the new Typed Arrays which offer much better performance than the original JavaScript arrays that can contain any type of data. Audio is usually stored in arrays of short integers (for the most common audio encodeing, on 16 bits), so our friend here is `Int16Array`:
 
     var buffer = new ArrayBuffer(2 * 16000); // One second at 16kHz
     var array = new Int16Array(buffer);
 
 # 8. Browser support
 
-Chrome is by far the most cutting edge browser for audio features and supports all the technologies described here. However, some of these features are buggy, for instance live audio capture using getUserMedia, createMediaStreamSource and createScriptProcessor often produces silent audio. The status and possible fixes fo this issue can be tracked in [this](http://code.google.com/p/chromium/issues/detail?id=112367) and [this](https://code.google.com/p/chromium/issues/detail?id=170384) bug reports.
+Chrome is by far the most cutting edge browser for audio features and supports all the technologies described here. However, some of these features are buggy, for instance live audio capture using `getUserMedia`, `createMediaStreamSource` and `createScriptProcessor` often produces silent audio. The status and possible fixes for this issue can be tracked in [this](http://code.google.com/p/chromium/issues/detail?id=112367) and [this](https://code.google.com/p/chromium/issues/detail?id=170384) bug reports.
 
 Firefox is catching up, it is now WebRTC ready and is adding the Web Audio API in the coming releases (23 and 24). Mozilla maintains a nice [Web Audio API Rollout Status](https://wiki.mozilla.org/WebAudio_API_Rollout_Status) page.
 
