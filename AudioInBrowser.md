@@ -110,7 +110,7 @@ Supporting a lot of these technologies are the new Typed Arrays which offer much
 
 Chrome is by far the most cutting edge browser for audio features and supports all the technologies described here. However, some of these features are buggy, for instance live audio capture using `getUserMedia`, `createMediaStreamSource` and `createScriptProcessor` often produces silent audio. The status and possible fixes for this issue can be tracked in [this](http://code.google.com/p/chromium/issues/detail?id=112367) and [this](https://code.google.com/p/chromium/issues/detail?id=170384) bug reports.
 
-Firefox is catching up, it is now WebRTC ready and is adding the Web Audio API in the coming releases (23 and 24). Mozilla maintains a nice [Web Audio API Rollout Status](https://wiki.mozilla.org/WebAudio_API_Rollout_Status) page.
+Firefox is catching up, it is now WebRTC ready and is adding the Web Audio API in the coming releases (23 and 24). Mozilla maintains a nice [Web Audio API Rollout Status](https://wiki.mozilla.org/WebAudio_API_Rollout_Status) page. Mozilla has just announced that they are [pretty much ready](https://hacks.mozilla.org/2013/07/web-audio-api-comes-to-firefox/), although the very important bridges `MediaStreamAudioSourceNode` and `MediaElementAudioSourceNode` are not done yet.
 
 The site <http://caniuse.com/> summarizes the support for web technologies by web browsers, here are the links to the points we discussed:
 
