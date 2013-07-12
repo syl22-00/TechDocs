@@ -30,6 +30,12 @@ In the archive, there is one `img` file, which itself contains two partitions. Y
 
     (parted) quit
 
+Alternatively, you can get this information using the `file` command:
+
+    $ file 2013-05-25-wheezy-raspbian.img
+
+Then, take the value of `startsector` for partition 2, and multiply by 512, you'll get the same value.
+
 You can then mount the / partition, as root:
 
     $ mkdir /mnt/raspberry
@@ -42,16 +48,42 @@ You need to mount it because one module which is set to be loaded at boot time w
 
 I expected to copy the kernel from the boot partition and start from here, but that kernel wont boot, and I have no idea why. You can find a specific kernel that will work on qemu [here](http://xecdesign.com/downloads/linux-qemu/kernel-qemu). Put is inside the same folder as your disk image, and you should be ready to go.
 
-You can then start the machine with the following command. Note that:
+You can then start the machine. Note that:
 
 * You need to specify the kernel specific to qemu
 * You can't change the allocated memory.
-* I run it with `--curses` because I'm through ssh. You don't beed this if you run it on your local machine, it will start in a new window.
+* Run the following command:
 
-    $ qemu-system-arm -kernel kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1" -hda 2013-05-25-wheezy-raspbian.img --curses
+    $ qemu-system-arm -kernel kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1" -hda 2013-05-25-wheezy-raspbian.img
+
+The first time you boot, you will get prompted to check your drive, run:
+
+    $ fsck /dev/sda2
+
+Then reboot:
+
+    $ shutdown -r now
+
+To retart the machine, use the `qemu` command given above. You can also launch with `--curses` if your don't want to start a window or if you're through ssh.
+
+The second time you boot, you'll be inside a config tool, you can use it for instance to change the password (user is `pi`, default password is `raspberry`) or start the ssh server.
+
+The `pi` user can sudo. The network should be usable, although I can't ping hosts. Your first command could be to update and upgrade your packages:
+
+    $ sudo apt-get update
+    $ sudo apt-get upgrade
+
+If you started qemu with an X window, you can start the dektop manager:
+
+    $ startx
 
 
-# 2. References
+# 2. Issues
+
+* In the QEMU window, some characters are not correctly mapped (such as #), no matter you're in the console or on LXDE. 
+* You can't ping hosts, although it resolves names correctly and other network software work well.
+
+# 3. References
 
 <http://xecdesign.com/qemu-emulating-raspberry-pi-the-easy-way/>
 <http://www.raspberrypi.org/phpBB3/viewtopic.php?f=29&t=37386>
