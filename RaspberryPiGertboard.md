@@ -41,5 +41,34 @@ Using raspi-config:
 * Expand the partitions to take the whole space,
 * Change password.
 
-Then change IP address from DHCP to fixed. The DHCP server was set up to start from `192.168.0.100`, so we assign from `192.168.0.99` and downwards.
+Then change IP address from DHCP to fixed. The DHCP server was set up to start from `192.168.0.99`, so we assign from `192.168.0.98` and downwards.
+
+I have an old Ralink Wifi USB device, and in order to be able to use either the Ethernet connection or the Wifi, whathever is connected, I had to do the followinf, thanks to [this blog post](http://www.janwagemakers.be/wordpress/?p=276). Here is the content of my `/etc/network/interfaces`:
+
+    auto lo
+    iface lo inet loopback
+    
+    allow-hotplug wlan0
+    iface wlan0 inet static
+    	pre-up	   ifconfig eth0 down
+    	address 192.168.0.97
+    	netmask 255.255.255.0
+    	gateway 192.168.0.1
+    	wpa-driver wext
+    	wpa-ssid my_ssid
+    	wpa-psk "my key"
+    	post-down  ifconfig eth0 up
+    
+    dns-nameservers 192.168.0.1 8.8.8.8 4.2.2.1
+    
+    iface eth0 inet static
+    	pre-up	ifdown wlan0
+    	address 192.168.0.98
+    	netmask 255.255.255.0
+    	gateway 192.168.0.1
+    	post-down ifup wlan0
+    
+    #dns-domain yourdomain.com
+    dns-nameservers 192.168.0.1 8.8.8.8 4.2.2.1
+
 
