@@ -74,7 +74,7 @@ A node can be created from a media element with the `createMediaElementSource` f
 
 ## 5.2 Bridging the Web Audio API and the audio input (such as microphone).
 
-As we'll see in the next section, the API to access the microphone is getUserMedia. This API is based on the concept of media streams. So in order to get the actual audio samples from the stream, one must create a node whose input is a stream created by getUserMedia:
+As we'll see in the next section, the API to access the microphone is getUserMedia. This API is based on the concept of media streams. So in order to get the actual audio samples from the stream, one must create a node whose input is a stream created by getUserMedia. It is prefixed on firefox (mozGetUserMedia) and Chrome (webkitGetUserMedia):
 
     var context = new webkitAudioContext();
     navigator.webkitGetUserMedia({audio: true}, 
@@ -91,9 +91,9 @@ Then, this input node can be connected to a processing node created by `createSc
 
 # 6. WebRTC and getUserMedia
 
-WebRTC is THE popular new web technology this year. It is closely related to the latest-and-greatest Google app: Hangouts. WebRTC is for creating real-time, peer-to peer communication applications in the browser. Just like Skype in the browser. It is the successor of Google Talk, and, with WebRTC being a standard, open-source, and available in several browsers, Hangout now works without browser plug-ins. WebRTC now being usable in both Chrome and Firefox, and open-source, developers can now create distributed communication applications without relying on any commercial or proprietary technology provider, which opens great business opportunities.
+WebRTC is THE popular new web technology this year. It is closely related to the latest-and-greatest Google app: Hangouts. WebRTC is for creating real-time, peer-to-peer communication applications in the browser. Just like Skype in the browser. It is the successor of Google Talk, and, with WebRTC being a standard, open-source, and available in several browsers, Hangout now works without browser plug-ins. WebRTC now being usable in both Chrome and Firefox, and open-source, developers can now create distributed communication applications without relying on any commercial or proprietary technology provider, which opens great business opportunities.
 
-WebRTC is actually the combination of several components. The one that interests us is getUserMedia, which allows developers to access the user's microphone. What getUserMedia provides is MediaStream objects, which is yet another concept than what we have seen with the audio tag and the Web Audio API. However, as we saw previously, the MediaStream objects can also be used to create audio nodes. So here, the Grail is `createMediaStreamSource`, which is for now only available on Chrome.
+WebRTC is actually the combination of several components. The one that interests us is getUserMedia, which allows developers to access the user's microphone. What getUserMedia provides is MediaStream objects, which is yet another concept than what we have seen with the audio tag and the Web Audio API. However, as we saw previously, the MediaStream objects can also be used to create audio nodes. So here, the Grail is `createMediaStreamSource`, which is available on Chrome and on firefox since version 25.
 
 # 7. Web workers, WebSockets and Typed Arrays
 
@@ -108,11 +108,7 @@ Supporting a lot of these technologies are the new Typed Arrays which offer much
 
 # 8. Browser support
 
-Chrome is by far the most cutting edge browser for audio features and supports all the technologies described here. However, some of these features are buggy, for instance live audio capture using `getUserMedia`, `createMediaStreamSource` and `createScriptProcessor` often produces silent audio. The status and possible fixes for this issue can be tracked in [this](http://code.google.com/p/chromium/issues/detail?id=112367) and [this](https://code.google.com/p/chromium/issues/detail?id=170384) bug reports.
-
-Firefox is catching up, it is now WebRTC ready and is adding the Web Audio API in the coming releases (23 and 24). Mozilla maintains a nice [Web Audio API Rollout Status](https://wiki.mozilla.org/WebAudio_API_Rollout_Status) page. Mozilla has just announced that they are [pretty much ready](https://hacks.mozilla.org/2013/07/web-audio-api-comes-to-firefox/), although the very important bridges `MediaStreamAudioSourceNode` and `MediaElementAudioSourceNode` are not done yet.
-
-The site <http://caniuse.com/> summarizes the support for web technologies by web browsers, here are the links to the points we discussed:
+Chrome is the most cutting edge browser for audio features and supports all the technologies described here. Firefox also implements most of those in the latest versions. The site <http://caniuse.com/> summarizes the support for web technologies by web browsers, here are the links to the points we discussed:
 
 * [Audio tag](http://caniuse.com/audio)
 * [Web Audio API](http://caniuse.com/audio-api)
